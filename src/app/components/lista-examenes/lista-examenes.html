@@ -1,0 +1,29 @@
+<div class="contenedor">
+    <h2>Lista de Exámenes del Paciente</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Código Persona</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Teléfono</th>
+                <th>Compañía</th>
+                <th>Tipo Chequeo</th>
+                <th>Servicio</th>
+                <th>Código Barra</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ex of examenes; let i = index">
+                <td>{{ ex.codPer }}</td>
+                <td>{{ ex.nomPer }}</td>
+                <td>{{ ex.nroDId }}</td>
+                <td>{{ ex.nroTlf }}</td>
+                <td>{{ ex.nomCom }}</td>
+                <td>{{ ex.codTCh }}</td>
+                <td>{{ ex.nomSer }}</td>
+                <td><svg [attr.id]="'barcode-' + i"></svg></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
