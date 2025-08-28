@@ -1,0 +1,15 @@
+<div class="login-container">
+    <h2>Login</h2>
+    <form (ngSubmit)="onLogin()">
+        <div class="form-group">
+            <label for="dni">DNI Number:</label>
+            <input type="text" id="dni" [(ngModel)]="dni" name="dni" required>
+        </div>
+        <button type="submit" [disabled]="loading">
+            {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
+    </form>
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+</div>
