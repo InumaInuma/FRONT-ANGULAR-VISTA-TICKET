@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ListaExamenesComponent } from './components/lista-examenes/lista-examenes';
 import { Login } from './components/login/login';
 import { AuthGuard } from './guards/auth-guard';
+import { loginguardGuard } from './guards/loginguard-guard';
 
 
 export const routes: Routes = [
@@ -12,7 +13,8 @@ export const routes: Routes = [
   },
   { 
     path: 'examenes', 
-    component: ListaExamenesComponent 
+    component: ListaExamenesComponent ,
+    canActivate: [loginguardGuard]
     // Si quieres proteger también esta ruta, necesitarías otro guard
     // { canActivate: [OtroGuard] }
   },

@@ -1,7 +1,11 @@
-<div class="container mt-4">
-    <div *ngIf="examenes && examenes.length > 0" class="cabecera-paciente">
-        <h2 class="text-center">Información del Paciente</h2>
-        <div class="info-paciente">
+<div class="heartbeat-icon">
+    ❤️🩺
+</div>
+
+<div class="container">
+    <div *ngIf="examenes && examenes.length > 0" class="paciente-card">
+        <h2>🧑‍⚕️ Información del Paciente</h2>
+        <div class="paciente-info">
             <p><strong>Paciente:</strong> {{ examenes[0].nomPer }}</p>
             <p><strong>Empresa:</strong> {{ examenes[0].nomCom }}</p>
             <p><strong>Documento:</strong> {{ examenes[0].nroDId }}</p>
@@ -11,74 +15,59 @@
         </div>
     </div>
 
-    <hr>
 
-    <h2 style="text-align: center;">Lista de Exámenes</h2>
-    <!--  <table class="table table-striped table-centered">
-        <thead>
-            <tr>
-                <th scope="col" class="th-servicio">Servicio</th>
-                <th scope="col" class="th-estado">Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let examen of examenes">
-                <td>{{ examen.nomSer }}</td>
-                <td>
-                    <span [ngClass]="{
-            'estado-en-cola': examen.estado === 0,
-            'estado-llamando': examen.estado === 1,
-            'estado-atendido': examen.estado === 3,
-            'estado-en-espera': examen.estado === 4
-          }">
-                        {{ getEstadoNombre(examen.estado) }}
-                    </span>
-                </td>
-            </tr>
-        </tbody>
-    </table> -->
-    <table class="table table-striped table-centered">
-        <thead>
-            <tr>
-                <th scope="col" class="th-servicio">Servicio</th>
-                <th scope="col" class="th-estado">Estado</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            <ng-container *ngFor="let examen of examenes">
-                <tr>
-                    <td>{{ examen.nomSer }}</td>
-                    <td>
-                        <span [ngClass]="{
-                            'estado-en-cola': examen.estado === 0,
-                            'estado-llamando': examen.estado === 1,
-                            'estado-atendido': examen.estado === 3,
-                            'estado-en-espera': examen.estado === 4
-                          }">
-                            {{ getEstadoNombre(examen.estado) }}
-                        </span>
-                    </td>
+    <h2 class="titulo-examenes">📋 Lista de Exámenes</h2>
 
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <ul class="list-group">
-                            <li *ngFor="let sub of examen.subExamenes" class="list-group-item">
-                                <span>{{ sub.nombre }}</span>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            </ng-container>
-        </tbody>
-    </table>
+    <div *ngFor="let examen of examenes" class="examen-card">
+        <!-- Cabecera del "bloque-tabla" -->
+        <div class="examen-header">
+            <div class="servicio">{{ examen.nomSer }}</div>
+            <div class="estado" [ngClass]="{
+        'en-cola': examen.estado === 0,
+        'llamando': examen.estado === 1,
+        'atendido': examen.estado === 3,
+        'en-espera': examen.estado === 4
+      }">
+                {{ getEstadoNombre(examen.estado) }}
+            </div>
+        </div>
 
-</div>
+        <!-- Subexámenes como si fueran filas de una tabla -->
+        <ul class="subexamenes">
+            <li *ngFor="let sub of examen.subExamenes">
+                🧪 {{ sub.nombre }}
+            </li>
+        </ul>
+    </div>
+    <!-- AQUI EL CODIGO DE BARRAS -->
 
-<div class="container mt-4">
-    <div class="logout-button-container">
-        <button class="btn btn-danger" (click)="onLogout()">Cerrar Sesión</button>
+    <!-- Código de barras -->
+    <div class="codigo-barras-container">
+        <h3> Código de Barras del Examen </h3>
+        <svg id="barcode"></svg>
+        <p>Este código representa la información del paciente y el examen. Escanéalo para obtener los detalles
+            completos.</p>
+    </div>
+    <!-- MODALS DE MENSAJE A RECEPCION  -->
+    <div *ngIf="showCompletionModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>¡Felicidades! 🎉</h2>
+            </div>
+            <div class="modal-body">
+                <p>Has culminado tus exámenes satisfactoriamente. 😊</p>
+                <p>Por favor, acércate a la recepción para finalizar tu proceso.</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeModal()">Entendido</button>
+            </div>
+        </div>
     </div>
 
+    <!-- FIN MODALS DE MENSAJE A RECEPCION  -->
+    <!-- BOTON CERRAR SESSION -->
+    <div class="logout-container">
+        <button (click)="onLogout()">Cerrar Sesión</button>
+    </div>
 </div>

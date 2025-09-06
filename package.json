@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "build:ssr": "ng build && ng run clinic-route:server",
     "serve:ssr:clinic-route": "node dist/clinic-route/server/server.mjs"
   },
   "prettier": {

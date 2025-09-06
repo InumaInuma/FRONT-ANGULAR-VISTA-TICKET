@@ -1,15 +1,32 @@
-<div class="login-container">
-    <h2>Login</h2>
-    <form (ngSubmit)="onLogin()">
-        <div class="form-group">
-            <label for="dni">DNI Number:</label>
-            <input type="text" id="dni" [(ngModel)]="dni" name="dni" required>
+<div class="heartbeat-icon">
+    ❤️🩺
+</div>
+<div class="login-wrapper">
+    <div class="login-card">
+        <!-- Imagen al costado -->
+        <div class="login-image">
+            <img src="assets/imagen.png" alt="Angular logo" />
         </div>
-        <button type="submit" [disabled]="loading">
-            {{ loading ? 'Logging in...' : 'Login' }}
-        </button>
-    </form>
-    <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
+
+        <!-- Formulario -->
+        <div class="login-form">
+            <h2>Bienvenidos 👋</h2>
+            <p>Ingresa tu número de DNI para continuar</p>
+
+            <form (ngSubmit)="onLogin()">
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" id="dni" [(ngModel)]="dni" name="dni" placeholder="Ej. 72544454" required />
+                </div>
+
+                <button type="submit" [disabled]="loading">
+                    {{ loading ? 'Ingresando...' : 'Ingresar' }}
+                </button>
+            </form>
+
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
+        </div>
     </div>
 </div>
