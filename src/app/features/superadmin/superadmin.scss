@@ -1,0 +1,122 @@
+.superadmin-container {
+  padding: 20px;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  input {
+    padding: 8px;
+    width: 200px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background: #125aa0;
+    }
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    background: #f4f6f8;
+  }
+
+  select {
+    padding: 6px;
+    border-radius: 4px;
+  }
+}
+
+.btn-save {
+  padding: 6px 12px;
+  background: #4caf50;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: #3e8e41;
+  }
+}
+
+.pagination {
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background: #e0e0e0;
+    cursor: pointer;
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// MODAL
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-cancel {
+  background: #ccc;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.btn-confirm {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+}

@@ -1,0 +1,561 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #19aad6; // fondo oscuro (tailwind slate-900)
+  padding: 20px;
+}
+
+.login-card {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  background-color: #1e293b; // slate-800
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.login-image {
+  flex: 1;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.login-form {
+  flex: 1;
+  padding: 40px;
+  color: #fff;
+
+  h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 30px;
+    color: #cbd5e1; // slate-300
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background-color: #334155; // slate-700
+      color: #fff;
+      font-size: 16px;
+
+      &:focus {
+        outline: 2px solid #3b82f6; // azul
+      }
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    background-color: #3b82f6; // azul
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:disabled {
+      background-color: #64748b; // gris
+      cursor: not-allowed;
+    }
+
+    &:hover:enabled {
+      background-color: #2563eb;
+    }
+  }
+
+  .error-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f87171; // rojo claro
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+}
+
+// CORAZON ANIMADO
+
+.heartbeat-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 60px;
+  /* ← aquí aumentas el tamaño */
+  animation: heartbeat 1.5s infinite;
+  z-index: 1000;
+  cursor: default;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+/* ============================================
+   ALERTA DE BATERÍA BAJA
+   ============================================ */
+.battery-alert {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border: 3px solid #ff9800;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: slideInDown 0.5s ease-out, pulseWarning 2s infinite;
+  box-shadow: 0 8px 24px rgba(255, 152, 0, 0.25);
+}
+
+.battery-alert-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.battery-icon {
+  font-size: 2.5rem;
+  animation: shake 1.5s infinite;
+}
+
+.battery-alert-header h3 {
+  color: #e65100;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.battery-level-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.battery-percentage {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #d84315;
+  line-height: 1;
+}
+
+.battery-status {
+  font-size: 1rem;
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.battery-message {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid #ff9800;
+}
+
+.battery-message p {
+  margin: 0.5rem 0;
+  color: #5d4037;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.battery-message strong {
+  color: #d84315;
+}
+
+.battery-instructions {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.instruction-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.instruction-item:last-child {
+  border-bottom: none;
+}
+
+.instruction-icon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.instruction-text {
+  flex: 1;
+  color: #424242;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.instruction-text strong {
+  color: #d84315;
+  font-weight: 600;
+}
+
+/* ============================================
+   BOTÓN DE VERIFICAR BATERÍA
+   ============================================ */
+.btn-recheck {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.btn-recheck:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-recheck:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-recheck:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   INDICADOR DE BATERÍA PEQUEÑO
+   ============================================ */
+.battery-indicator-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.battery-mini-icon {
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.battery-mini-icon.low {
+  animation: blinkBattery 1.5s infinite;
+  filter: hue-rotate(40deg);
+}
+
+.battery-mini-text {
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+.battery-mini-icon.low + .battery-mini-text {
+  color: #f57c00;
+}
+
+.charging-mini {
+  font-size: 1rem;
+  animation: pulse 1.5s infinite;
+}
+
+.battery-indicator-small:has(.battery-mini-icon.low) {
+  background: #fff3e0;
+  border: 2px solid #ff9800;
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseWarning {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.25);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(255, 152, 0, 0.4);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  75% {
+    transform: translateX(5px) rotate(5deg);
+  }
+}
+
+@keyframes blinkBattery {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL
+   ============================================ */
+@media (max-width: 768px) {
+  .battery-alert {
+    padding: 1.25rem;
+    border-width: 2px;
+  }
+
+  .battery-icon {
+    font-size: 2rem;
+  }
+
+  .battery-alert-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .battery-percentage {
+    font-size: 2rem;
+  }
+
+  .battery-message {
+    padding: 0.875rem;
+  }
+
+  .battery-message p {
+    font-size: 0.875rem;
+  }
+
+  .battery-instructions {
+    padding: 1rem;
+  }
+
+  .instruction-icon {
+    font-size: 1.5rem;
+  }
+
+  .instruction-text {
+    font-size: 0.875rem;
+  }
+
+  .btn-recheck {
+    padding: 0.875rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .battery-alert {
+    padding: 1rem;
+  }
+
+  .battery-icon {
+    font-size: 1.75rem;
+  }
+
+  .battery-alert-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .battery-alert-header h3 {
+    font-size: 1.125rem;
+    text-align: center;
+  }
+
+  .battery-percentage {
+    font-size: 1.75rem;
+  }
+
+  .battery-status {
+    font-size: 0.875rem;
+  }
+
+  .instruction-icon {
+    font-size: 1.25rem;
+  }
+
+  .battery-indicator-small {
+    padding: 0.625rem;
+    font-size: 0.813rem;
+  }
+}
+
+/* ============================================
+   ACCESIBILIDAD
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .battery-alert,
+  .battery-icon,
+  .battery-mini-icon.low,
+  .charging-mini,
+  .btn-recheck {
+    animation: none !important;
+  }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+  .battery-alert {
+    border-width: 4px;
+  }
+
+  .battery-instructions {
+    border: 2px solid #ff9800;
+  }
+}
+
+/* ============================================
+   ESTADOS ADICIONALES
+   ============================================ */
+
+/* Cuando el formulario está deshabilitado por batería baja */
+form:has(input:disabled) {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Error message styling */
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #d32f2f;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Mejora visual del botón principal cuando está habilitado */
+button[type="submit"]:not(:disabled) {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"]:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+button[type="submit"]:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Loader para el estado "Verificando..." */
+button:disabled {
+  position: relative;
+  overflow: hidden;
+}
+
+button:disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}

@@ -1,0 +1,152 @@
+<div class="heartbeat-icon">
+    ❤️🩺
+</div>
+
+<div class="container">
+    <!-- Código de barras -->
+    <div class="codigo-barras-container">
+        <h3> Código de Barras del Examen </h3>
+        <svg id="barcode"></svg>
+        <p>Este código representa la información del paciente y el examen. Escanéalo para obtener los detalles
+            completos.</p>
+    </div>
+    <div id="pdf-card">
+        <div *ngIf="examenes && examenes.length > 0" class="paciente-card">
+            <h2>🧑‍⚕️ Información del Paciente</h2>
+            <div class="paciente-info">
+                <p><strong>🧑‍⚕️ Paciente:</strong> {{ examenes[0].nomPer }}</p>
+                <p><strong>🏢 Empresa:</strong> {{ examenes[0].nomCom }}</p>
+                <p><strong>🆔 Documento:</strong> {{ examenes[0].nroDId }}</p>
+                <p><strong>🎂 Edad:</strong> {{ examenes[0].edaPac }}</p>
+                <p><strong>📅 Fecha cita:</strong> {{ examenes[0].fecAte }}</p>
+                <p><strong>📝 Tipo Chequeo:</strong> {{ examenes[0].codTCh }}</p>
+            </div>
+        </div>
+
+        <h2 class="titulo-examenes">📋 Lista de Exámenes</h2>
+
+        <div *ngFor="let examen of examenes" class="examen-card">
+            <!-- Cabecera del "bloque-tabla" -->
+            <div class="examen-header">
+                <div class="servicio">{{ examen.nomSer }}</div>
+                <div class="estado" [ngClass]="{
+        'en-cola': examen.estado === 0,
+        'llamando': examen.estado === 1,
+        'atendido': examen.estado === 3,
+        'en-espera': examen.estado === 4
+      }">
+                    {{ getEstadoNombre(examen.estado) }}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- CUESTIONARIO TABLA PARA MOSTRAR  -->
+    <div class="examen-card">
+        <div class="examen-header">
+            <div class="servicio">CUESTIONARIO</div>
+            <div class="estado" [ngClass]="{
+        'en-espera': !(isQuestionnaireReady$ | async) && !isQuestionnaireCompleted,
+        'atendido': isQuestionnaireCompleted
+      }">
+                <button class="button-estado" [disabled]="!(isQuestionnaireReady$ | async)"
+                    (click)="startQuestionnaire()">
+                    <ng-container *ngIf="isQuestionnaireCompleted">FINALIZADO</ng-container>
+                    <ng-container *ngIf="!isQuestionnaireCompleted">
+                        {{ (isQuestionnaireReady$ | async) ? 'INICIAR' : 'PENDIENTE' }}
+                    </ng-container>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- botom CUESTIONARIO TABLA PARA MOSTRAR  -->
+    <!--  MODAL CUESTIONARIO -->
+    <div *ngIf="showSurveyModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Encuesta de Satisfacción</h2>
+                <p>Nos importa tu experiencia. Ayúdanos a mejorar.</p>
+            </div>
+            <div class="modal-body">
+                <ng-container *ngIf="surveyQuestions && surveyQuestions.length > 0">
+                    <h3>{{ getCurrentQuestion().pregunta }}</h3>
+
+                    <div class="survey-options">
+                        <ng-container *ngIf="getCurrentQuestion().id <= 6">
+                            <button *ngFor="let option of surveyOptions; let i = index"
+                                (click)="recolectarRespuesta(i + 1)"
+                                [ngClass]="{'selected': esBotonSeleccionado(i + 1)}">
+                                {{ option }}
+                            </button>
+                        </ng-container>
+
+                        <ng-container *ngIf="getCurrentQuestion().id === 7 || getCurrentQuestion().id === 8">
+                            <button *ngFor="let option of getOptionsForCurrentQuestion(); let i = index"
+                                (click)="recolectarRespuesta(i + 1)"
+                                [disabled]="isOptionDisabled(getCurrentQuestion().id, i + 1)"
+                                [ngClass]="{'selected': esBotonSeleccionado(i + 1), 'disabled': isOptionDisabled(getCurrentQuestion().id, i + 1)}">
+                                {{ option }}
+                            </button>
+                            <button class="next-button" (click)="pasarSiguientePregunta()">Siguiente</button>
+                        </ng-container>
+
+                        <ng-container *ngIf="getCurrentQuestion().id === 9">
+                            <button *ngFor="let option of getOptionsForCurrentQuestion(); let i = index"
+                                (click)="recolectarRespuesta(i + 1)"
+                                [ngClass]="{'selected': esBotonSeleccionado(i + 1)}">
+                                {{ option }}
+                            </button>
+                            <button class="next-button" (click)="pasarSiguientePregunta()">Siguiente</button>
+                        </ng-container>
+                    </div>
+                </ng-container>
+
+                <div *ngIf="isLoadingQuestions">
+                    <p>Cargando preguntas...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIN DE MODAL CUESTIONARIO -->
+
+    <!-- MODALS DE MENSAJE A RECEPCION  -->
+    <div *ngIf="showCompletionModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>¡Felicidades! 🎉</h2>
+            </div>
+            <div class="modal-body">
+                <p>Has culminado tus exámenes satisfactoriamente. 😊</p>
+                <p>Por favor, acércate a la recepción para finalizar tu proceso.</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeModal()">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTON CERRAR SESSION -->
+    <!-- Botón de descarga PDF - solo visible cuando todos los examenes estén completados -->
+    <div class="logout-container-pdf" *ngIf="allExamsCompleted$ | async">
+        <button id="downloadBtn" class="btn-download" (click)="downloadPdf()">
+            Descargar PDF
+        </button>
+    </div>
+
+    <div class="logout-container">
+        <button (click)="onLogout()">Cerrar Sesión</button>
+    </div>
+
+    <div class="modal-overlay-decl" *ngIf="showDeclaracionModalFlag" role="dialog" aria-modal="true">
+        <div class="modal-card-decl">
+            <h3>🔔 Nueva declaración disponible</h3>
+            <p>Se ha detectado una nueva declaración que debes completar antes de continuar.</p>
+            <div style="margin-top:14px;">
+                <button class="btn-primary" (click)="goToDeclaracionesFromModal()">Ir a Declaraciones</button>
+            </div>
+        </div>
+    </div>
+
+</div>

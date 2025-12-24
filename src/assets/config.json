@@ -1,0 +1,5 @@
+{
+  "apiUrl": "https://api.empresa.com/api/Examenes",
+  "hubUrl": "https://api.empresa.com/hubs/examenes",
+  "consentUrl": "https://api.empresa.com/api/consents"
+}

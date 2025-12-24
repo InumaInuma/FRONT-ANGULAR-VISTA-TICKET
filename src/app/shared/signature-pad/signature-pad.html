@@ -1,0 +1,30 @@
+<div class="sig-wrapper">
+  <div class="sig-grid">
+    <!-- 🖋️ Firma (70%) -->
+    <div class="sig-box">
+      <div class="sig-header"></div>
+
+      <div class="sig-body">
+        <canvas #sigCanvas class="sig-canvas" aria-label="Área de firma"></canvas>
+      </div>
+
+      <div class="sig-footer">Firma del paciente</div>
+    </div>
+
+    <!-- 👉 Huella (30%) -->
+    <div class="huella-box">
+      <div class="huella-header">
+        <label class="chk-huella">
+          <input type="checkbox" [checked]="mostrarHuella" (change)="onHuellaCheckbox($event)" />
+          ¿Desea usar su huella digital brindada en recepción?
+        </label>
+      </div>
+
+      <div class="huella-body">
+        <img *ngIf="huellaUrl && mostrarHuella" [src]="huellaUrl" alt="Huella del paciente" class="huella-img" />
+      </div>
+
+      <div class="huella-footer">Huella del paciente</div>
+    </div>
+  </div>
+</div>

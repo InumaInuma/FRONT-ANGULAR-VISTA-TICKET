@@ -1,0 +1,75 @@
+<div class="superadmin-container">
+
+    <!-- 🔍 Filtro -->
+    <div class="filter-bar">
+        <input type="text" placeholder="Buscar por DNI" [(ngModel)]="dniFiltro" maxlength="8" />
+        <button (click)="onSearch()">Filtrar</button>
+    </div>
+
+    <!-- 📋 Tabla -->
+    <table>
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let c of colaboradores">
+                <td>{{ c.nroDId }}</td>
+                <td>{{ c.nomPer }} {{ c.apePat }} {{ c.apeMat }}</td>
+
+                <td>
+                    <select [(ngModel)]="c.idRol">
+                        <option [value]="2">Trabajador</option>
+                        <option [value]="3">Admin</option>
+                        <option [value]="4">SuperAdmin</option>
+                    </select>
+                </td>
+
+                <td>
+                    <button class="btn-save" (click)="confirmRoleChange(c)">
+                        Guardar
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 📄 Paginación -->
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageNumber === 1">
+            ⏮ Anterior
+        </button>
+
+        <span>Página {{ pageNumber }}</span>
+
+        <button (click)="nextPage()" [disabled]="!hasMore">
+            Siguiente ⏭
+        </button>
+    </div>
+    <span>Página {{ pageNumber }} de {{ totalPages }}</span>
+</div>
+
+<div class="modal-backdrop" *ngIf="showConfirmModal">
+    <div class="modal-box">
+        <h3>Confirmar cambio</h3>
+        <p>
+            ¿Estás seguro de cambiar el rol de
+            <strong>
+                {{ selectedColaborador?.nomPer }}
+                {{ selectedColaborador?.apePat }}
+                {{ selectedColaborador?.apeMat }}
+            </strong>
+        </p>
+
+        <div class="modal-actions">
+            <button class="btn-confirm" (click)="applyChange()">Sí</button>
+            <button class="btn-cancel" (click)="cancelChange()">No</button>
+
+        </div>
+    </div>
+</div>

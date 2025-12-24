@@ -1,0 +1,171 @@
+<div class="ticket-container">
+  <!-- ============================================
+       HEADER CON LOGO Y TÍTULO
+       ============================================ -->
+  <div class="ticket-header">
+    <div class="logo-section">
+      <div class="logo-icon">🏥</div>
+      <div class="clinic-info">
+        <h1>MEDCORP</h1>
+        <p>Centro de Salud Ocupacional</p>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================
+       TICKET PRINCIPAL npm install firebase
+       ============================================ -->
+  <div class="ticket-card" *ngIf="!errorMsg">
+
+    <div class="recepcion-status" *ngIf="recepcion">
+      <div class="recepcion-title">
+        <span class="rec-icon">🛎️</span>
+        <span class="rec-text">{{ recepcion.nomSer || 'Recepción' }}</span>
+      </div>
+      <div class="recepcion-pill" [ngClass]="getEstadoClass(recepcion.estado)">
+        {{ getEstadoNombre(recepcion.estado) }}
+      </div>
+    </div>
+    <!-- Badge de confirmación -->
+    <div class="confirmation-badge">
+      <div class="badge-icon">✅</div>
+      <div class="badge-text">Ticket Generado</div>
+    </div>
+
+    <!-- Número de Ticket GRANDE -->
+    <div class="ticket-number-section">
+      <div class="ticket-label">Tu Número de Ticket</div>
+      <div class="ticket-number">
+        {{ NroTic || '---' }}
+      </div>
+      <div class="ticket-sublabel">Guarda este número</div>
+    </div>
+
+    <!-- Separador decorativo -->
+    <div class="ticket-divider">
+      <div class="divider-circle left"></div>
+      <div class="divider-line"></div>
+      <div class="divider-circle right"></div>
+    </div>
+
+    <!-- Información del paciente -->
+    <div class="patient-info-section">
+      <div class="info-icon">👤</div>
+      <div class="info-content">
+        <div class="info-label">Paciente</div>
+        <div class="info-value">{{ NomPer || 'Sin nombre' }}</div>
+      </div>
+    </div>
+    <!-- Información del paciente -->
+    <div class="patient-info-section">
+      <div class="info-icon">👤</div>
+      <div class="info-content">
+        <div class="info-label">Tipo chequeo</div>
+        <div class="info-value">{{ DesTCh || 'Sin nombre' }}</div>
+      </div>
+    </div>
+    <!-- Información del paciente -->
+    <div class="patient-info-section">
+      <div class="info-icon">👤</div>
+      <div class="info-content">
+        <div class="info-label">Empresa</div>
+        <div class="info-value">{{ NomCom || 'Sin nombre' }}</div>
+      </div>
+    </div>
+
+    <!-- Fecha y hora -->
+    <div class="datetime-section">
+      <div class="datetime-item">
+        <div class="datetime-icon">📅</div>
+        <div class="datetime-content">
+          <div class="datetime-label">Fecha</div>
+          <div class="datetime-value">{{ currentDate | date:'dd/MM/yyyy' }}</div>
+        </div>
+      </div>
+      <div class="datetime-item">
+        <div class="datetime-icon">🕐</div>
+        <div class="datetime-content">
+          <div class="datetime-label">Hora</div>
+          <div class="datetime-value">{{ currentDate | date:'HH:mm' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instrucciones -->
+    <div class="instructions-section">
+      <div class="instructions-header">
+        <span class="instructions-icon">ℹ️</span>
+        <span class="instructions-title">Instrucciones</span>
+      </div>
+      <ul class="instructions-list">
+        <li>
+          <span class="list-icon">1️⃣</span>
+          <span>Dirígete al área de <strong>recepción</strong></span>
+        </li>
+        <li>
+          <span class="list-icon">2️⃣</span>
+          <span>Presenta tu <strong>número de ticket</strong></span>
+        </li>
+        <li>
+          <span class="list-icon">3️⃣</span>
+          <span>Espera a ser llamado para tu atención</span>
+        </li>
+      </ul>
+    </div>
+
+
+
+    <!-- Footer del ticket -->
+    <div class="ticket-footer">
+      <p class="footer-text">
+        Conserva este ticket hasta completar tu atención
+      </p>
+      <p class="footer-contact">
+        📞 (01) 209 - 9470 | 📧 info@medcorp.pe
+      </p>
+    </div>
+
+    <!-- Botón de acción -->
+    <div class="action-buttons">
+      <!-- Botón para ir a consent SOLO cuando Recepción llame -->
+      <button class="btn-primary pulse" *ngIf="isRecepcionLlamando" (click)="goToConsent()">
+        ✍️ ¿Llegaste a recepción? <strong>Firma tus declaraciones</strong>
+      </button>
+      <button class="btn-secondary" (click)="shareTicket()">
+        📤 Compartir
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       ERROR MESSAGE
+       ============================================ -->
+  <div class="error-card" *ngIf="errorMsg">
+    <div class="error-icon">⚠️</div>
+    <div class="error-title">Error al Generar Ticket</div>
+    <div class="error-message">{{ errorMsg }}</div>
+    <button class="btn-retry" (click)="ngOnInit()">
+      🔄 Intentar Nuevamente
+    </button>
+  </div>
+
+  <!-- ============================================
+       INFORMACIÓN ADICIONAL
+       ============================================ -->
+  <div class="info-cards" *ngIf="!errorMsg">
+    <div class="info-card">
+      <div class="card-icon">⏱️</div>
+      <div class="card-content">
+        <div class="card-title">Tiempo de espera</div>
+        <div class="card-description">Aproximadamente 15-20 minutos</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-icon">📍</div>
+      <div class="card-content">
+        <div class="card-title">Ubicación</div>
+        <div class="card-description">Av. Petit Thouars N° 1542, Lince</div>
+      </div>
+    </div>
+  </div>
+</div>

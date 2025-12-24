@@ -1,0 +1,84 @@
+<div class="heartbeat-icon">
+    ❤️🩺
+</div>
+<div class="login-wrapper">
+     <!-- ============================================
+         📝 FORMULARIO DE LOGIN NORMAL
+         ============================================ -->
+    <div class="login-card">
+        <!-- Imagen al costado -->
+        <div class="login-image">
+            <img src="assets/imagen.png" alt="Angular logo" />
+        </div>
+
+        <!-- Formulario -->
+        <div class="login-form">
+            <h2>Bienvenidos 👋</h2>
+            <p>Ingresa tu número de DNI para continuar</p>
+
+            <!-- 🔋 ALERTA DE BATERÍA BAJA -->
+            <div *ngIf="showBatteryAlert" class="battery-alert">
+                <div class="battery-alert-header">
+                    <span class="battery-icon">🔋⚠️</span>
+                    <h3>Batería Insuficiente</h3>
+                </div>
+                
+                <div class="battery-level-display">
+                    <span class="battery-percentage">{{ batteryLevel }}%</span>
+                    <span class="battery-status" *ngIf="isCharging">🔌 Cargando</span>
+                </div>
+
+                <div class="battery-message">
+                    <p><strong>Tu dispositivo tiene menos del 50% de batería.</strong></p>
+                    <p>Para evitar interrupciones durante el proceso de tus examenes medicos:</p>
+                </div>
+
+                <div class="battery-instructions">
+                    <div class="instruction-item">
+                        <span class="instruction-icon">📋</span>
+                        <span class="instruction-text">
+                            <strong>Solicita tu ticket en físico</strong> en el área de recepción
+                        </span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="instruction-icon">🔌</span>
+                        <span class="instruction-text">
+                            O <strong>carga tu dispositivo</strong> e intenta nuevamente
+                        </span>
+                    </div>
+                </div>
+
+                <button 
+                    type="button" 
+                    class="btn-recheck"
+                    (click)="recheckBattery()"
+                    [disabled]="loading"
+                >
+                    {{ loading ? 'Verificando...' : '🔄 Verificar batería nuevamente' }}
+                </button>
+            </div>
+
+            <form (ngSubmit)="onLogin()" *ngIf="!showBatteryAlert">
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" id="dni" [(ngModel)]="dni" name="dni" placeholder="Ej. 72544454" required />
+                </div>
+
+                <button type="submit" [disabled]="loading">
+                    {{ loading ? 'Verificando...' : 'Ingresar' }}
+                </button>
+
+                  <!-- Indicador de batería pequeño -->
+                <div class="battery-indicator-small">
+                    <span class="battery-mini-icon" [class.low]="batteryLevel < 30">🔋</span>
+                    <span class="battery-mini-text">{{ batteryLevel }}%</span>
+                    <span class="charging-mini" *ngIf="isCharging">🔌</span>
+                </div>
+            </form>
+
+            <div *ngIf="errorMessage && !showBatteryAlert" class="error-message">
+                {{ errorMessage }}
+            </div>
+        </div>
+    </div>
+</div>

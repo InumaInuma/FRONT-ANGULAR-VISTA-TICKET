@@ -1,0 +1,151 @@
+<div class="page">
+  <div class="container">
+
+    <!-- HERO DECORATIVO -->
+    <section class="hero">
+
+
+      <!-- Contenido visible -->
+      <div class="hero__content">
+        <h1>Consentimiento Informado y Políticas</h1>
+        <div class="hero__chips">
+          <span class="chip">Paciente: {{ fullName || '—' }}</span>
+          <span class="chip">Tipo de chequeo: {{ destch || '—' }}</span>
+          <span class="chip">Fec. nacimiento: {{ fechas || '—' }}</span>
+          <span class="chip">Edad: {{ edadPa || '—' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- …tu sección/card existente… -->
+    <!-- Solo una declaración a la vez -->
+    <section class="card" *ngIf="declaraciones.length">
+      <!-- Stepper / progreso -->
+      <div class="stepper">
+        <div class="stepper__meta">
+          <span class="badge">Declaración {{ currentIndex + 1 }} de {{ declaraciones.length }}</span>
+          <span class="read-flag" [class.done]="hasScrolledToEndArr[currentIndex]">
+            {{ hasScrolledToEndArr[currentIndex] ? 'Leída ✅' : 'Pendiente de leer ⏳' }}
+          </span>
+        </div>
+        <div class="progress" aria-label="Progreso de lectura">
+          <div class="progress__bar" [style.width.%]="((currentIndex+1)/declaraciones.length)*100"></div>
+        </div>
+      </div>
+
+      <h2 class="subtitle">Políticas de privacidad y tratamiento de datos</h2>
+
+      <!-- Contenido scrolleable -->
+      <div class="policies" (scroll)="onPoliciesScrollIndex(currentIndex, $event)" tabindex="0"
+        aria-label="Contenido de políticas">
+        <article [innerHTML]="politicasHtml[currentIndex]"></article>
+      </div>
+
+      <!-- Checkbox independiente -->
+      <label class="chk">
+        <input type="checkbox" [(ngModel)]="acceptedArr[currentIndex]"
+          [disabled]="!hasScrolledToEndArr[currentIndex]" />
+        <span>
+          Acepto esta declaración
+          <em *ngIf="!hasScrolledToEndArr[currentIndex]">(lee hasta el final para habilitar)</em>
+        </span>
+      </label>
+      <!-- Checkboxes extra (solo para CodDec = 5) -->
+      <div class="extra-checkboxes" *ngIf="isCurrentDecPregnancy">
+        <label class="extra-chk">
+          <input type="checkbox" [checked]="dec5Selections[currentKey] === 'NO'"
+            (change)="onDec5Toggle('NO', $event)" />
+          <span>NO estar en periodo de gestación (embarazo)</span>
+        </label>
+
+        <label class="extra-chk">
+          <input type="checkbox" [checked]="dec5Selections[currentKey] === 'DUDA'"
+            (change)="onDec5Toggle('DUDA', $event)" />
+          <span>ESTAR en duda si me encuentro en periodo de gestación (embarazo)</span>
+        </label>
+
+        <label class="extra-chk">
+          <input type="checkbox" [checked]="dec5Selections[currentKey] === 'SI'"
+            (change)="onDec5Toggle('SI', $event)" />
+          <span>ESTAR en periodo de gestación (embarazo)</span>
+        </label>
+      </div>
+
+
+      <!-- Firma + huella -->
+      <section class="firma-card">
+        <div class="firma-card__hdr">
+          <h3>Firma del paciente</h3>
+          <button type="button" class="btn btn-ghost" (click)="clearSignature(currentIndex)"
+            *ngIf="signaturesArr[currentIndex]">
+            Limpiar firma
+          </button>
+        </div>
+
+        <app-signature-pad [huellaUrl]="huellaUrl" [mostrarHuella]="mostrarHuella"
+          (huellaChange)="onToggleHuella($event)" (onChange)="onSigChanged($event)"></app-signature-pad>
+
+        <p class="hint">Firme dentro del recuadro (esta firma es solo para esta declaración).</p>
+      </section>
+
+      <!-- Botonera -->
+      <section class="actions">
+        <button type="button" class="btn btn-outline" (click)="prevDeclaration()" [disabled]="currentIndex === 0">
+          ← Anterior
+        </button>
+
+        <button *ngIf="!isLast" type="button" class="btn btn-primary" (click)="nextDeclaration()">
+          Siguiente declaración →
+        </button>
+        <!-- Última declaración -->
+        <button *ngIf="isLast" type="button" class="btn btn-primary" (click)="submitCurrent()" [disabled]="submitting">
+          {{ submitting ? 'Enviando...' : (acceptedArr[currentIndex] && signaturesArr[currentIndex]
+          ? 'Guardar y continuar'
+          : 'Continuar sin firmar') }}
+        </button>
+      </section>
+    </section>
+  </div>
+</div>
+
+
+<!-- Modal bloqueante cuando la orden aún no existe -->
+<div class="modal-overlay" *ngIf="showOrderPendingModal" aria-modal="true" role="dialog">
+  <div class="modal-card" role="document" tabindex="-1" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <h3 id="modalTitle">Aún no se ha generado la orden</h3>
+    <p id="modalDesc">La orden todavía no fue creada por el sistema. Por favor, reintenta en unos minutos. Si lo
+      prefieres, haz clic en "Volver a Número de Ticket" para solicitar un nuevo ticket en recepción.</p>
+
+    <div class="modal-actions">
+      <button class="btn-primary" (click)="goBackToNroTicketFromModal()">Volver a Número de Ticket</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal RX Warning -->
+<!-- <div class="modal-backdrop" *ngIf="rxModalVisible" (click)="closeRxModal()"></div>
+ -->
+<!-- BACKDROP -->
+<div class="modal-backdrop" *ngIf="rxModalVisible"></div>
+
+<!-- MODAL CARD dentro del contenedor centrado -->
+<div class="modal" *ngIf="rxModalVisible" role="dialog" aria-modal="true" aria-labelledby="rx-modal-title"
+  aria-describedby="rx-modal-desc">
+
+  <div class="modal__card">
+    <div class="modal__header">
+      <h3 id="rx-modal-title">{{ rxModalTitle }}</h3>
+    </div>
+
+    <div class="modal__body" id="rx-modal-desc">
+      <p>{{ rxModalMessage }}</p>
+    </div>
+
+    <div class="modal__footer">
+      <button type="button" class="btn btn-primary" disabled>
+        Comuníquese con recepción
+      </button>
+    </div>
+  </div>
+
+</div>
