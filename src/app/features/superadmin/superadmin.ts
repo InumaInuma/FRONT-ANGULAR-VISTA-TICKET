@@ -69,6 +69,7 @@ export class Superadmin implements OnInit {
       .updateRol(this.selectedColaborador.codPer, this.newRole!)
       .subscribe({
         next: () => {
+          alert('✅ Rol actualizado');
           this.showConfirmModal = false;
           this.loadData();
         },
@@ -99,6 +100,12 @@ export class Superadmin implements OnInit {
       next: () => alert('✅ Rol actualizado'),
       error: () => alert('❌ Error al actualizar rol'),
     });
+  }
+
+  getInitials(nombre: string, apellido: string): string {
+    const inicial1 = nombre?.charAt(0)?.toUpperCase() || '';
+    const inicial2 = apellido?.charAt(0)?.toUpperCase() || '';
+    return inicial1 + inicial2;
   }
 
   get totalPages(): number {

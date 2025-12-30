@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  
+  --primary-color: #5E72E4;
+  --primary-dark: #4C63D2;
+  --primary-light: #E8EAFE;
+  --success-color: #2DCE89;
+  --success-light: #E5F9F2;
+  --warning-color: #FB6340;
+  --warning-light: #FEE8E3;
+  --danger-color: #F5365C;
+  --text-primary: #32325D;
+  --text-secondary: #8898AA;
+  --border-color: #E9ECEF;
+  --bg-gray: #F7FAFC;
+  --white: #FFFFFF;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}

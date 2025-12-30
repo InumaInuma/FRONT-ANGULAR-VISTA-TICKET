@@ -647,10 +647,10 @@ export class SiglaService {
     );
   }
 
-  updateRol(idPersona: number, idRol: number) {
-  return this.http.put(
-    `${this.enviroments.apiUrl}/colaboradores/rol`,
-    { idPersona, idRol }
-  );
-}
+  updateRol(codPer: number, idRol: number) {
+    return this.http.put(`${this.enviroments.apiUrl}/colaboradores/rol`, {
+      codPer,
+      idRol,
+    });
+  }
 }

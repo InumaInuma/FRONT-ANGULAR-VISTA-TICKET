@@ -637,3 +637,95 @@ $color-primario: #2aa4dd;
   z-index: 100000;
 }
 
+/* Fondo oscuro del modal */
+.modal-overlay-decl {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6); // azul oscuro elegante
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* Tarjeta del modal */
+.modal-card-decl {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 26px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: scaleIn 0.25s ease-in-out;
+
+  h3 {
+    margin: 0 0 12px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+}
+
+/* Botón principal */
+.btn-primary {
+  margin-top: 12px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(37, 99, 235, 0.45);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .modal-card-decl {
+    margin: 0 16px;
+    padding: 20px;
+  }
+}
